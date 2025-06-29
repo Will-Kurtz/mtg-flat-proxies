@@ -23,4 +23,5 @@ class CardBuilder:
         if(show is True):
             completedCard.show()
 
-        completedCard.save("cards/"+Utils.sanitizeString(card.name())+".png")
+        for x in range(cardObject["quantity"]):
+            completedCard.save("cards/"+Utils.sanitizeString(card.name())+"_"+cardObject["set"]+"_"+cardObject["collectorNumber"]+"_"+str(x+1)+".png")
