@@ -5,14 +5,14 @@ from src.utils import Utils
 class PNGCardBuilder:
     
 
-    def generateCardPNG(card, font32, font36, font44, manaCostTextImage, oracleAndFlavorTextImage):
+    def generateCardPNG(card, cardName, type_line, font32, font36, font44, manaCostTextImage, oracleAndFlavorTextImage):
         baseCard = PNGCardBuilder.getBaseCardBackground(card).convert("RGBA")
         baseCardWithText = ImageDraw.Draw(baseCard)
 
         # Add Card Name to image
-        baseCardWithText.text((55, 62), card.name(), font=font36, fill =('#000000'))
+        baseCardWithText.text((55, 62), cardName, font=font36, fill =('#000000'))
         # Add Line Type to image
-        baseCardWithText.text((55, 581), card.type_line(), font=font32, fill =('#000000'))
+        baseCardWithText.text((55, 581), type_line, font=font32, fill =('#000000'))
         try:
             baseCardWithText.text((585, 905), str(card.power())+"/"+str(card.toughness()), font=font44, fill =('#000000'))
         except Exception as e:

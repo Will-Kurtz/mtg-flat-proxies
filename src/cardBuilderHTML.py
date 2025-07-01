@@ -15,10 +15,10 @@ class HtmlCardBuilder:
         except Exception as e:
             return None
         
-    def getOracleAndFlavorTextImage(card, oracleFlavorFileName):
+    def getOracleAndFlavorTextImage(oracle_text, flavor_text, oracleFlavorFileName):
         hti = Html2Image(size=(1024, 1024))
 
-        htmlOracleAndFlavorText= HtmlCardBuilder.buildOracleAndFlavorHTML(card)
+        htmlOracleAndFlavorText= HtmlCardBuilder.buildOracleAndFlavorHTML(oracle_text, flavor_text)
         hti.screenshot(html_str=htmlOracleAndFlavorText, css_file='css/main.css', save_as=oracleFlavorFileName)
         oracleAndFlavorTextImage = Image.open(oracleFlavorFileName).convert('RGBA')
         return Utils.trimImage(oracleAndFlavorTextImage)
@@ -26,14 +26,12 @@ class HtmlCardBuilder:
 
 
 
-    def getOracleTextHTML(card):
-        cardText = card.oracle_text()
-
-        result = Utils.replaceManaAndSymbols(cardText)
+    def getOracleTextHTML(oracle_text):
+        result = Utils.replaceManaAndSymbols(oracle_text)
 
         oracleTextStart = """<div class="oracle-text"><span>"""
         oracleTextEnd = """</span></div>"""
-        if hasattr(card, 'oracle_text') and callable(getattr(card, 'oracle_text')):
+        if oracle_text is not "":
             oracleText = oracleTextStart + result + oracleTextEnd
         else:
             oracleText = "" 
@@ -71,7 +69,7 @@ class HtmlCardBuilder:
         </body>"""
         return firstPart + HtmlCardBuilder.getManaCostTextHTML(card) + lastPart
 
-    def buildOracleAndFlavorHTML(card):
+    def buildOracleAndFlavorHTML(oracle_text, flavor_text):
         firstPart = """<head>
         <link rel="stylesheet" href="css/main.css"/>
         <link href="css/mana.css" rel="stylesheet" type="text/css" />
@@ -91,9 +89,7 @@ class HtmlCardBuilder:
         divider = """<div class="oracle-flavor-spacer"></div>"""
         flavorStart = """<div class="oracle-text-flavor">"""
         flavorEnd = """</div>"""
-        try:
-            return firstPart + HtmlCardBuilder.getOracleTextHTML(card) + divider + flavorStart + card.flavor_text() + flavorEnd + lastPart 
-        except Exception as e:
-            print(f"An error occurred: {e}")
+        if flavor_text is not "":
+            return firstPart + HtmlCardBuilder.getOracleTextHTML(oracle_text) + divider + flavorStart + flavor_text + flavorEnd + lastPart 
 
-        return firstPart + HtmlCardBuilder.getOracleTextHTML(card) + lastPart
+        return firstPart + HtmlCardBuilder.getOracleTextHTML(oracle_text) + lastPart
