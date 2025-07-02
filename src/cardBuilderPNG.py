@@ -1,11 +1,12 @@
 
 from PIL import Image, ImageChops, ImageDraw, ImageFont
 from src.utils import Utils
+from src.test import Test
 
 class PNGCardBuilder:
     
 
-    def generateCardPNG(card, cardName, type_line, font32, font36, font44, manaCostTextImage, oracleAndFlavorTextImage):
+    def generateCardPNG(card, cardName, type_line, font32, font36, font44, manaCostTextImage, oracleAndFlavorTextImage, originalArt=True):
         baseCard = PNGCardBuilder.getBaseCardBackground(card).convert("RGBA")
         baseCardWithText = ImageDraw.Draw(baseCard)
 
@@ -27,9 +28,21 @@ class PNGCardBuilder:
             baseCard.paste(manaCostTextImage, (int(665 - manaCostWidth), int(57)), manaCostTextImage)
 
         cropeedImageZX = Utils.getCardImage(card.image_uris()["art_crop"]).convert("RGBA")
-        cropeedImage = cropeedImageZX.crop((0,0, 612, 446))
-        baseCard.paste(cropeedImage, (53,112), cropeedImage)
+        cropeedImageZX.save("temp/"+cardName+".png")
+
+        if originalArt is True:
+            cropeedImage = cropeedImageZX.crop((0,0, 612, 446))
+            baseCard.paste(cropeedImage, (53,112), cropeedImage)
+            return baseCard
+            
+        print(cardName)
+        Test.convertImageToLineArtPng(cardName)
+
+        line_art = Image.open("temp/"+cardName+"_lines.png")
+        line_art = line_art.resize((626, 457)).crop((0,0, 612, 446))
+        baseCard.paste(line_art, (53,112), line_art)
         return baseCard
+
 
 
     def getBaseCardBackground(card):

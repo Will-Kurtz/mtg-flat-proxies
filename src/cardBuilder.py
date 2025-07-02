@@ -5,7 +5,7 @@ from src.cardBuilderHTML import HtmlCardBuilder
 from src.cardBuilderPNG import PNGCardBuilder
 
 class CardBuilder:
-    def buildCard(cardObject, font32, font36, font44, lang, show = False):
+    def buildCard(cardObject, font32, font36, font44, lang, show = False, originalArt = True):
         # TODO enable search by name or set collector number
         # card = ScrythonApi.getCardInfo(cardObject["name"])
         print("Downloading info for: " + cardObject["name"])
@@ -44,7 +44,7 @@ class CardBuilder:
         oracleFlavorFileName = "oracle_and_flavor"+Utils.sanitizeString(cardName)+".png"
         oracleAndFlavorTextImage = HtmlCardBuilder.getOracleAndFlavorTextImage(oracle_text, flavor_text, oracleFlavorFileName)
 
-        completedCard = PNGCardBuilder.generateCardPNG(card, cardName, type_line, font32, font36, font44, manaCostTextImage, oracleAndFlavorTextImage)
+        completedCard = PNGCardBuilder.generateCardPNG(card, cardName, type_line, font32, font36, font44, manaCostTextImage, oracleAndFlavorTextImage, originalArt)
         os.remove(oracleFlavorFileName)
         os.remove(manaCostFileName)
         if(show is True):
