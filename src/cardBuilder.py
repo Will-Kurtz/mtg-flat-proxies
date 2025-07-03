@@ -5,7 +5,7 @@ from src.cardBuilderHTML import HtmlCardBuilder
 from src.cardBuilderPNG import PNGCardBuilder
 
 class CardBuilder:
-    def buildCard(cardObject, font32, font36, font44, lang, show = False, originalArt = True):
+    def buildCard(cardObject, font32, font36, font44, lang, show = False, originalArt = 1):
         # TODO enable search by name or set collector number
         # card = ScrythonApi.getCardInfo(cardObject["name"])
         print("Downloading info for: " + cardObject["name"])

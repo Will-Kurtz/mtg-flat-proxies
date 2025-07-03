@@ -7,15 +7,15 @@
 1 Chancellor of the Annex (PLST) NPH-6
 1 Dazzling Angel (FDN) 9
 1 Exquisite Archangel (AER) 18
-1 Giada, Font of Hope (SNC) 14
+1 Giada, Font of Hope (FDN) 141
 1 Goldnight Redeemer (AVR) 23
 1 Guardian of Ghirapur (MOM) 345
 1 Inspiring Overseer (PLST) SNC-18
-1 Iona, Shield of Emeria (ZEN) 13
+1 Iona, Shield of Emeria (MB2) 12
 1 Linvala, Keeper of Silence (JMP) 119
 1 Lyra Dawnbringer (DOM) 26
 1 Metropolis Reformer (MAT) 4
-3 Mind Stone (MKC) 232
+3 Mind Stone (DSC) 248
 4 Pearl Medallion (MH3) 294
 1 Righteous Valkyrie (PKHM) 24p
 1 Segovian Angel (MH1) 25
