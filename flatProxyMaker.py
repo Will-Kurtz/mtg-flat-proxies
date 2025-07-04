@@ -26,11 +26,12 @@ def main(deckpath=None, showCards=None, lang=None, original_art=1):
     if showCards is None:
         showCard = False
 
-    listCards = DecklistReader.readFile(decklistFileNamePath)
+    # listCards = DecklistReader.readFile(decklistFileNamePath)
+    listLines = DecklistReader.read_file_to_list(decklistFileNamePath)
 
     print("original_art " + str(original_art))
-    for card in listCards:
-        CardBuilder.buildCard(card, belerenBold32, belerenBold36, belerenBold44, lang, showCard, original_art)
+    for line in listLines:
+        CardBuilder.buildCard(line, belerenBold32, belerenBold36, belerenBold44, lang, showCard, original_art)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="MTG Minimalist proxy maker.")

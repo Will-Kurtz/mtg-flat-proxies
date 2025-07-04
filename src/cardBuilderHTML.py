@@ -1,16 +1,24 @@
 from src.utils import Utils
 from html2image import Html2Image
 from PIL import Image, ImageChops, ImageDraw, ImageFont
+import os
 
-
+def remove_parentheses(s):
+    if s.startswith('('):
+        s = s[1:]  # Remove the first character if it's '('
+    if s.endswith(')'):
+        s = s[:-1]  # Remove the last character if it's ')'
+    return s
 class HtmlCardBuilder:
-    def getManaCostImage(card, manaCostFileName):
+
+    
+    def getManaCostImage(mana_cost, manaCostFileName):
         try:
             hti = Html2Image(size=(1024, 1024))
-            manaCost = card.mana_cost()
-            htmlManaCost= HtmlCardBuilder.buildManaCostHTML(card=card)
+            htmlManaCost= HtmlCardBuilder.buildManaCostHTML(mana_cost)
             hti.screenshot(html_str=htmlManaCost, css_file='css/main.css', save_as=manaCostFileName)
             manaCostTextImage = Image.open(manaCostFileName).convert('RGBA')
+            os.remove(manaCostFileName)
             return Utils.trimImage(manaCostTextImage)
         except Exception as e:
             return None
@@ -21,13 +29,11 @@ class HtmlCardBuilder:
         htmlOracleAndFlavorText= HtmlCardBuilder.buildOracleAndFlavorHTML(oracle_text, flavor_text)
         hti.screenshot(html_str=htmlOracleAndFlavorText, css_file='css/main.css', save_as=oracleFlavorFileName)
         oracleAndFlavorTextImage = Image.open(oracleFlavorFileName).convert('RGBA')
+        os.remove(oracleFlavorFileName)
         return Utils.trimImage(oracleAndFlavorTextImage)
 
-
-
-
     def getOracleTextHTML(oracle_text):
-        result = Utils.replaceManaAndSymbols(oracle_text)
+        result = Utils.replaceManaAndSymbols(remove_parentheses(oracle_text))
 
         oracleTextStart = """<div class="oracle-text"><span>"""
         oracleTextEnd = """</span></div>"""
@@ -38,21 +44,14 @@ class HtmlCardBuilder:
 
         return oracleText
 
-    def getManaCostTextHTML(card):
-        cardText = card.mana_cost()
-
-        result = Utils.replaceManaAndSymbolsLarge(cardText)
+    def getManaCostTextHTML(mana_cost):
+        result = Utils.replaceManaAndSymbolsLarge(mana_cost)
 
         oracleTextStart = """<div class="oracle-text"><span>"""
         oracleTextEnd = """</span></div>"""
-        if hasattr(card, 'oracle_text') and callable(getattr(card, 'oracle_text')):
-            oracleText = oracleTextStart + result + oracleTextEnd
-        else:
-            oracleText = "" 
+        return oracleTextStart + result + oracleTextEnd
 
-        return oracleText
-
-    def buildManaCostHTML(card):
+    def buildManaCostHTML(mana_cost):
         firstPart = """<head>
         <link rel="stylesheet" href="css/main.css"/>
         <link href="css/mana.css" rel="stylesheet" type="text/css" />
@@ -67,7 +66,7 @@ class HtmlCardBuilder:
             </div>
         </div>
         </body>"""
-        return firstPart + HtmlCardBuilder.getManaCostTextHTML(card) + lastPart
+        return firstPart + HtmlCardBuilder.getManaCostTextHTML(mana_cost) + lastPart
 
     def buildOracleAndFlavorHTML(oracle_text, flavor_text):
         firstPart = """<head>

@@ -30,10 +30,8 @@ def reduce_dither(base_image, kernel_size = 5):
     cleaned.save(f"{output_dir}/1_cleaned_dither.png")
 
 class PNGCardBuilder:
-    
-
-    def generateCardPNG(card, cardName, type_line, font32, font36, font44, manaCostTextImage, oracleAndFlavorTextImage, originalArt=1):
-        baseCard = PNGCardBuilder.getBaseCardBackground(card).convert("RGBA")
+    def generateCardPNG(cardName, power, toughness, type_line, art_crop_url, font32, font36, font44, manaCostTextImage, oracleAndFlavorTextImage, originalArt=1):
+        baseCard = PNGCardBuilder.getBaseCardBackground(power).convert("RGBA")
         baseCardWithText = ImageDraw.Draw(baseCard)
 
         # Add Card Name to image
@@ -41,20 +39,22 @@ class PNGCardBuilder:
         # Add Line Type to image
         baseCardWithText.text((55, 581), type_line, font=font32, fill =('#000000'))
         try:
-            baseCardWithText.text((585, 905), str(card.power())+"/"+str(card.toughness()), font=font44, fill =('#000000'))
+            baseCardWithText.text((585, 905), str(power)+"/"+str(toughness), font=font44, fill =('#000000'))
         except Exception as e:
             print(f"An error occurred: {e}")
 
-        oracleFlavorwidth, oracleFlavorHeight = oracleAndFlavorTextImage.size
-        oracleAndFlavorPosition = (68, int(628 +(306 - oracleFlavorHeight) / 2))
-        baseCard.paste(oracleAndFlavorTextImage, oracleAndFlavorPosition, oracleAndFlavorTextImage)
+        if(oracleAndFlavorTextImage is not None):
+            oracleFlavorwidth, oracleFlavorHeight = oracleAndFlavorTextImage.size
+            oracleAndFlavorPosition = (68, int(628 +(306 - oracleFlavorHeight) / 2))
+            baseCard.paste(oracleAndFlavorTextImage, oracleAndFlavorPosition, oracleAndFlavorTextImage)
 
         if(manaCostTextImage is not None):
             manaCostWidth, manaCostHeight = manaCostTextImage.size
             baseCard.paste(manaCostTextImage, (int(665 - manaCostWidth), int(57)), manaCostTextImage)
 
-        cropeedImageZX = Utils.getCardImage(card.image_uris()["art_crop"]).convert("RGBA")
-        cropeedImageZX.save("temp/"+cardName+".png")
+        # card.image_uris()["art_crop"]
+        cropeedImageZX = Utils.getCardImage(art_crop_url).convert("RGBA")
+        # cropeedImageZX.save("temp/"+Utils.sanitizeString(cardName)+".png")
         brightness_factor = 1.25  # Increase brightness (1.0 means no change)
         contrast_factor = 1.25  
 
@@ -84,6 +84,7 @@ class PNGCardBuilder:
 
 
         print(cardName)
+        cropeedImageZX.save("temp/"+Utils.sanitizeString(cardName)+".png")
         Test.convertImageToLineArtPng(cardName)
 
         line_art = Image.open("temp/"+cardName+"_lines.png")
@@ -93,9 +94,7 @@ class PNGCardBuilder:
 
 
 
-    def getBaseCardBackground(card):
-        try:
-            isCreature = card.power()
+    def getBaseCardBackground(power):
+        if power is not "":
             return Image.open('./arts/base_creature_template.png')
-        except Exception as e:
-            return Image.open('./arts/base_non_creature_template.png')
+        return Image.open('./arts/base_non_creature_template.png')
