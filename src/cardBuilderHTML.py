@@ -10,8 +10,6 @@ def remove_parentheses(s):
         s = s[:-1]  # Remove the last character if it's ')'
     return s
 class HtmlCardBuilder:
-
-    
     def getManaCostImage(mana_cost, manaCostFileName):
         try:
             hti = Html2Image(size=(1024, 1024))
@@ -23,9 +21,16 @@ class HtmlCardBuilder:
         except Exception as e:
             return None
         
+    def getOracleAndFlavorTextImageForAdventure(oracle_text, flavor_text, oracleFlavorFileName):
+        hti = Html2Image(size=(1024, 1024))
+        htmlOracleAndFlavorText= HtmlCardBuilder.buildAdventureOracleAndFlavorHTML(oracle_text, flavor_text)
+        hti.screenshot(html_str=htmlOracleAndFlavorText, css_file='css/main.css', save_as=oracleFlavorFileName)
+        oracleAndFlavorTextImage = Image.open(oracleFlavorFileName).convert('RGBA')
+        os.remove(oracleFlavorFileName)
+        return Utils.trimImage(oracleAndFlavorTextImage)
+    
     def getOracleAndFlavorTextImage(oracle_text, flavor_text, oracleFlavorFileName):
         hti = Html2Image(size=(1024, 1024))
-
         htmlOracleAndFlavorText= HtmlCardBuilder.buildOracleAndFlavorHTML(oracle_text, flavor_text)
         hti.screenshot(html_str=htmlOracleAndFlavorText, css_file='css/main.css', save_as=oracleFlavorFileName)
         oracleAndFlavorTextImage = Image.open(oracleFlavorFileName).convert('RGBA')
@@ -79,6 +84,31 @@ class HtmlCardBuilder:
                 <div class="base-card-rule-container">
                     <div class="base-card-rule-box">
                         <div class="base-card-oracle-and-flavor-box">"""
+        lastPart = """</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </body>"""
+        divider = """<div class="oracle-flavor-spacer"></div>"""
+        flavorStart = """<div class="oracle-text-flavor">"""
+        flavorEnd = """</div>"""
+        if flavor_text is not "":
+            return firstPart + HtmlCardBuilder.getOracleTextHTML(oracle_text) + divider + flavorStart + flavor_text + flavorEnd + lastPart 
+
+        return firstPart + HtmlCardBuilder.getOracleTextHTML(oracle_text) + lastPart
+    
+    def buildAdventureOracleAndFlavorHTML(oracle_text, flavor_text):
+        firstPart = """<head>
+        <link rel="stylesheet" href="css/main.css"/>
+        <link href="css/mana.css" rel="stylesheet" type="text/css" />
+        </head>
+        <body>
+        <div class="bg-image">
+            <div class="card-containers">
+                <div class="base-card-rule-container">
+                    <div class="base-card-rule-box">
+                        <div class="adventure-card-oracle-and-flavor-box">"""
         lastPart = """</div>
                     </div>
                 </div>

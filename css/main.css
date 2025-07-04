@@ -2297,12 +2297,20 @@ span.ms-half > .ms-cost {
     justify-content: center;
 }
 
+.adventure-card-oracle-and-flavor-box,
 .base-card-oracle-and-flavor-box {
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     padding: 1.5rem;
+}
+
+.adventure-card-oracle-and-flavor-box {
+  width: 48%;
+  .oracle-text {
+    font-size: 28px !important;
+  }
 }
 
 .oracle-text, .oracle-text-flavor {
