@@ -38,10 +38,8 @@ class PNGCardBuilder:
         baseCardWithText.text((55, 62), cardName, font=font36, fill =('#000000'))
         # Add Line Type to image
         baseCardWithText.text((55, 581), type_line, font=font32, fill =('#000000'))
-        try:
+        if(power != ""):
             baseCardWithText.text((585, 905), str(power)+"/"+str(toughness), font=font44, fill =('#000000'))
-        except Exception as e:
-            print(f"An error occurred: {e}")
 
         if(oracleAndFlavorTextImage is not None):
             oracleFlavorwidth, oracleFlavorHeight = oracleAndFlavorTextImage.size
@@ -173,11 +171,11 @@ class PNGCardBuilder:
 
 
     def getBaseCardBackground(power):
-        if power is not "":
-            return Image.open('./arts/base_creature_template.png')
-        return Image.open('./arts/base_non_creature_template.png')
+        if power == "":
+            return Image.open('./arts/base_non_creature_template.png')
+        return Image.open('./arts/base_creature_template.png')
     
     def getBaseAdventureCardBackground(power):
-        if power is not "":
-            return Image.open('./arts/base_adventure_creature_template.png')
-        return Image.open('./arts/base_adventure_non_creature_template.png')
+        if power == "":
+            return Image.open('./arts/base_adventure_non_creature_template.png')
+        return Image.open('./arts/base_adventure_creature_template.png')
