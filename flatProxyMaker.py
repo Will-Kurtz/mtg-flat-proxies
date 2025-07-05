@@ -11,6 +11,15 @@ from src.decklistReader import DecklistReader
 #     else:
 #         raise argparse.ArgumentTypeError('Boolean value expected.')
 
+def save_strings_to_file(string_array, output_file):
+    try:
+        with open(f"decklists/{output_file}.txt", 'w') as file:
+            for string in string_array:
+                file.write(string + '\n')  # Adds a newline after each string
+        print(f"Successfully saved strings to '{output_file}'")
+    except Exception as e:
+        print(f"Error saving to file: {e}")
+
 def main(deckpath=None, showCards=None, lang=None, original_art=1):
     # Custom font style and font size
     belerenBold28 = ImageFont.truetype('./fonts/BelerenBold.ttf', 28)
@@ -30,9 +39,19 @@ def main(deckpath=None, showCards=None, lang=None, original_art=1):
     # listCards = DecklistReader.readFile(decklistFileNamePath)
     listLines = DecklistReader.read_file_to_list(decklistFileNamePath)
 
+    processedCards = [] 
+    errorCards = []
     print("original_art " + str(original_art))
     for line in listLines:
-        CardBuilder.buildCard(line, belerenBold28, belerenBold32, belerenBold36, belerenBold44, lang, showCard, original_art)
+        cardStatus = CardBuilder.buildCard(line, belerenBold28, belerenBold32, belerenBold36, belerenBold44, lang, showCard, original_art)
+        if cardStatus is True:
+            processedCards.append(line)
+        else:
+            errorCards.append(line)
+
+    save_strings_to_file(processedCards, "success/downloaded")
+    save_strings_to_file(errorCards, "failed/failed_download")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="MTG Minimalist proxy maker.")

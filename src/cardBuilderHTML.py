@@ -6,7 +6,7 @@ import os
 def remove_parentheses(s):
     if s.startswith('('):
         s = s[1:]  # Remove the first character if it's '('
-    if s.endswith(')'):
+    if s.endswith('})'):
         s = s[:-1]  # Remove the last character if it's ')'
     return s
 class HtmlCardBuilder:

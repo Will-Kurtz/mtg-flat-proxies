@@ -1,3 +1,7 @@
-1 Hildibrand Manderville // Gentleman's Rise (FIC) 83
-1 Hypnotic Sprite // Mesmeric Glare (FIC) 264
-1 Murderous Rider // Swift End (FIC) 279
+1 Atraxa, Grand Unifier (ONE) 196
+1 Barkchannel Pathway // Tidechannel Pathway (KHM) 290
+1 Branchloft Pathway // Boulderloft Pathway (ZNR) 284
+1 Brightclimb Pathway // Grimclimb Pathway (ZNR) 285
+1 Clearwater Pathway // Murkwater Pathway (ZNR) 286
+1 Darkbore Pathway // Slitherbore Pathway (KHM) 254
+1 Hengegate Pathway // Mistgate Pathway (KHM) 293
