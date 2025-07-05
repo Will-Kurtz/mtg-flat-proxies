@@ -13,6 +13,7 @@ from src.decklistReader import DecklistReader
 
 def main(deckpath=None, showCards=None, lang=None, original_art=1):
     # Custom font style and font size
+    belerenBold28 = ImageFont.truetype('./fonts/BelerenBold.ttf', 28)
     belerenBold32 = ImageFont.truetype('./fonts/BelerenBold.ttf', 32)
     belerenBold36 = ImageFont.truetype('./fonts/BelerenBold.ttf', 36)
     belerenBold44 = ImageFont.truetype('./fonts/BelerenBold.ttf', 42)
@@ -31,7 +32,7 @@ def main(deckpath=None, showCards=None, lang=None, original_art=1):
 
     print("original_art " + str(original_art))
     for line in listLines:
-        CardBuilder.buildCard(line, belerenBold32, belerenBold36, belerenBold44, lang, showCard, original_art)
+        CardBuilder.buildCard(line, belerenBold28, belerenBold32, belerenBold36, belerenBold44, lang, showCard, original_art)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="MTG Minimalist proxy maker.")

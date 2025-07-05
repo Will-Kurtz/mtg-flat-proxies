@@ -92,27 +92,43 @@ class PNGCardBuilder:
         baseCard.paste(line_art, (53,112), line_art)
         return baseCard
     
-    def generateAdventureCardPNG(cardName, power, toughness, type_line, art_crop_url, font32, font36, font44, manaCostTextImage, oracleAndFlavorTextImage, originalArt=1):
-        baseCard = PNGCardBuilder.getBaseAdventureCardBackground(power).convert("RGBA")
+    def generateAdventureCardPNG(cardNameFirst, powerFirst, toughnessFirst, type_lineFirst, manaCostTextImageFirst, oracleAndFlavorTextImageFirst,
+                                 cardNameSecond, powerSecond, toughnessSecond, type_lineSecond, manaCostTextImageSecond, oracleAndFlavorTextImageSecond, 
+                                 art_crop_url, font28, font32, font36, font44, originalArt=1):
+        baseCard = PNGCardBuilder.getBaseAdventureCardBackground(powerFirst).convert("RGBA")
         baseCardWithText = ImageDraw.Draw(baseCard)
 
         # Add Card Name to image
-        baseCardWithText.text((55, 62), cardName, font=font36, fill =('#000000'))
+        baseCardWithText.text((55, 62), cardNameFirst, font=font36, fill =('#000000'))
         # Add Line Type to image
-        baseCardWithText.text((55, 581), type_line, font=font32, fill =('#000000'))
+        baseCardWithText.text((55, 581), type_lineFirst, font=font32, fill =('#000000'))
+        # Add Card Name to image
+        baseCardWithText.text((60, 638), cardNameSecond, font=font28, fill =('#000000'))
+        baseCardWithText.text((60, 684), type_lineSecond, font=font28, fill =('#000000'))
+
         try:
-            baseCardWithText.text((585, 905), str(power)+"/"+str(toughness), font=font44, fill =('#000000'))
+            baseCardWithText.text((585, 905), str(powerFirst)+"/"+str(toughnessFirst), font=font44, fill =('#000000'))
         except Exception as e:
             print(f"An error occurred: {e}")
 
-        if(oracleAndFlavorTextImage is not None):
-            oracleFlavorwidth, oracleFlavorHeight = oracleAndFlavorTextImage.size
+        if(oracleAndFlavorTextImageFirst is not None):
+            oracleFlavorwidth, oracleFlavorHeight = oracleAndFlavorTextImageFirst.size
             oracleAndFlavorPosition = (370, int(628 +(306 - oracleFlavorHeight) / 2))
-            baseCard.paste(oracleAndFlavorTextImage, oracleAndFlavorPosition, oracleAndFlavorTextImage)
+            baseCard.paste(oracleAndFlavorTextImageFirst, oracleAndFlavorPosition, oracleAndFlavorTextImageFirst)
 
-        if(manaCostTextImage is not None):
-            manaCostWidth, manaCostHeight = manaCostTextImage.size
-            baseCard.paste(manaCostTextImage, (int(665 - manaCostWidth), int(57)), manaCostTextImage)
+        if(oracleAndFlavorTextImageSecond is not None):
+            oracleFlavorwidth, oracleFlavorHeight = oracleAndFlavorTextImageSecond.size
+            oracleAndFlavorPosition = (68, int(720 +(213 - oracleFlavorHeight) / 2))
+            baseCard.paste(oracleAndFlavorTextImageSecond, oracleAndFlavorPosition, oracleAndFlavorTextImageSecond)
+
+        if(manaCostTextImageFirst is not None):
+            manaCostWidth, manaCostHeight = manaCostTextImageFirst.size
+            baseCard.paste(manaCostTextImageFirst, (int(665 - manaCostWidth), int(57)), manaCostTextImageFirst)
+
+        
+        if(manaCostTextImageSecond is not None):
+            manaCostWidth, manaCostHeight = manaCostTextImageSecond.size
+            baseCard.paste(manaCostTextImageSecond, (int(352 - manaCostWidth), int(634)), manaCostTextImageSecond)
 
         # card.image_uris()["art_crop"]
         cropeedImageZX = Utils.getCardImage(art_crop_url).convert("RGBA")
@@ -145,11 +161,11 @@ class PNGCardBuilder:
             return baseCard
 
 
-        print(cardName)
-        cropeedImageZX.save("temp/"+Utils.sanitizeString(cardName)+".png")
-        Test.convertImageToLineArtPng(cardName)
+        print(cardNameFirst)
+        cropeedImageZX.save("temp/"+Utils.sanitizeString(cardNameFirst)+".png")
+        Test.convertImageToLineArtPng(cardNameFirst)
 
-        line_art = Image.open("temp/"+cardName+"_lines.png")
+        line_art = Image.open("temp/"+cardNameFirst+"_lines.png")
         line_art = line_art.resize((626, 457)).crop((0,0, 612, 446))
         baseCard.paste(line_art, (53,112), line_art)
         return baseCard

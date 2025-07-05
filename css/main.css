@@ -2287,7 +2287,8 @@ span.ms-half > .ms-cost {
     justify-content: center;
 }
 
-.base-card-rule-box {
+.base-card-rule-box,
+.adventure-card-rule-box {
     /* background-color: white; */
     height: 100%;
     width: 86%;
@@ -2295,6 +2296,12 @@ span.ms-half > .ms-cost {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.adventure-card-rule-box {
+  .oracle-text {
+    font-size: 20px !important;
+  }
 }
 
 .adventure-card-oracle-and-flavor-box,

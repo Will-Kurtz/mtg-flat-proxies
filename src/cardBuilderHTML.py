@@ -21,6 +21,17 @@ class HtmlCardBuilder:
         except Exception as e:
             return None
         
+    def getManaCostImageAdventure(mana_cost, manaCostFileName):
+        try:
+            hti = Html2Image(size=(1024, 1024))
+            htmlManaCost= HtmlCardBuilder.buildManaCostHTMLAdventure(mana_cost)
+            hti.screenshot(html_str=htmlManaCost, css_file='css/main.css', save_as=manaCostFileName)
+            manaCostTextImage = Image.open(manaCostFileName).convert('RGBA')
+            os.remove(manaCostFileName)
+            return Utils.trimImage(manaCostTextImage)
+        except Exception as e:
+            return None
+        
     def getOracleAndFlavorTextImageForAdventure(oracle_text, flavor_text, oracleFlavorFileName):
         hti = Html2Image(size=(1024, 1024))
         htmlOracleAndFlavorText= HtmlCardBuilder.buildAdventureOracleAndFlavorHTML(oracle_text, flavor_text)
@@ -56,6 +67,13 @@ class HtmlCardBuilder:
         oracleTextEnd = """</span></div>"""
         return oracleTextStart + result + oracleTextEnd
 
+    def getManaCostTextHTMLAdventure(mana_cost):
+        result = Utils.replaceManaAndSymbols(mana_cost)
+
+        oracleTextStart = """<div class="oracle-text"><span>"""
+        oracleTextEnd = """</span></div>"""
+        return oracleTextStart + result + oracleTextEnd
+
     def buildManaCostHTML(mana_cost):
         firstPart = """<head>
         <link rel="stylesheet" href="css/main.css"/>
@@ -72,6 +90,23 @@ class HtmlCardBuilder:
         </div>
         </body>"""
         return firstPart + HtmlCardBuilder.getManaCostTextHTML(mana_cost) + lastPart
+    
+    def buildManaCostHTMLAdventure(mana_cost):
+        firstPart = """<head>
+        <link rel="stylesheet" href="css/main.css"/>
+        <link href="css/mana.css" rel="stylesheet" type="text/css" />
+        </head>
+        <body>
+        <div class="bg-image">
+            <div class="card-containers">
+                <div class="base-card-rule-container">
+                    <div class="adventure-card-rule-box">"""
+        lastPart = """</div>
+                </div>
+            </div>
+        </div>
+        </body>"""
+        return firstPart + HtmlCardBuilder.getManaCostTextHTMLAdventure(mana_cost) + lastPart
 
     def buildOracleAndFlavorHTML(oracle_text, flavor_text):
         firstPart = """<head>

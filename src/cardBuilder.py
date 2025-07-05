@@ -32,7 +32,7 @@ def getInfoForCardFace(cardFace):
 
     return cardName, type_line, mana_cost, power, toughness, oracle_text, flavor_text
 class CardBuilder:
-    def buildCard(line, font32, font36, font44, lang, show = False, originalArt = 1):
+    def buildCard(line, font28, font32, font36, font44, lang, show = False, originalArt = 1):
         # TODO enable search by card lang
         print("Downloading info for: " + line)
         card, quantity =  ScrythonApi.tryGetCard(line)
@@ -88,15 +88,21 @@ class CardBuilder:
             manaCostFileNameFirst = "mana_cost"+Utils.sanitizeString(cardNameFirst)+".png"
             manaCostTextImageFirst = HtmlCardBuilder.getManaCostImage(manaCostFirst, manaCostFileNameFirst)
 
+            manaCostFileNameSecond = "mana_cost"+Utils.sanitizeString(cardNameSecond)+".png"
+            manaCostTextImageSecond = HtmlCardBuilder.getManaCostImageAdventure(manaCostSecond, manaCostFileNameSecond)
+
             # print(f"Oracle text: |{oracle_textFirst}|")
             # print(f"Flavor text: |{flavor_textFirst}|")
             oracleFlavorFileNameFirst = "oracle_and_flavor"+Utils.sanitizeString(cardNameFirst)+".png"
             oracleAndFlavorTextImageFirst = HtmlCardBuilder.getOracleAndFlavorTextImageForAdventure(oracle_textFirst, flavor_textFirst, oracleFlavorFileNameFirst)
 
+            oracleFlavorFileNameSecond = "oracle_and_flavor"+Utils.sanitizeString(cardNameSecond)+".png"
+            oracleAndFlavorTextImageSecond = HtmlCardBuilder.getOracleAndFlavorTextImageForAdventure(oracle_textSecond, flavor_textSecond, oracleFlavorFileNameSecond)
+
             art_crop_url = card["image_uris"]["art_crop"]
-            completedCard = PNGCardBuilder.generateAdventureCardPNG(cardNameFirst, powerFirst, toughnessFirst, type_lineFirst,
-                                                                    
-                                                                     art_crop_url, font32, font36, font44, manaCostTextImageFirst, oracleAndFlavorTextImageFirst, originalArt)
+            completedCard = PNGCardBuilder.generateAdventureCardPNG(cardNameFirst, powerFirst, toughnessFirst, type_lineFirst, manaCostTextImageFirst, oracleAndFlavorTextImageFirst,
+                                                                    cardNameSecond, powerSecond, toughnessSecond, type_lineSecond, manaCostTextImageSecond, oracleAndFlavorTextImageSecond,
+                                                                    art_crop_url, font28, font32, font36, font44, originalArt)
             if(show is True):
                 completedCard.show()
 
