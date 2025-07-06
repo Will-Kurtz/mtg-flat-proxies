@@ -5,8 +5,8 @@ from src.test import Test
 import cv2
 import numpy as np
 
-def enhance_image(image, brightness_factor, contrast_factor):
     # Load the image
+def enhance_image(image, brightness_factor, contrast_factor):
     # Enhance brightness
     enhancer = ImageEnhance.Brightness(image)
     image = enhancer.enhance(brightness_factor)
@@ -30,6 +30,9 @@ def reduce_dither(base_image, kernel_size = 5):
     cleaned.save(f"{output_dir}/1_cleaned_dither.png")
 
 class PNGCardBuilder:
+    def enhance_image(image, brightness_factor, contrast_factor):
+        return enhance_image(image, brightness_factor, contrast_factor)
+
     def generateCardPNG(cardName, power, toughness, type_line, art_crop_url, font32, font36, font44, manaCostTextImage, oracleAndFlavorTextImage, originalArt=1):
         baseCard = PNGCardBuilder.getBaseCardBackground(power).convert("RGBA")
         baseCardWithText = ImageDraw.Draw(baseCard)

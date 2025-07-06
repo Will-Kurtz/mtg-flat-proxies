@@ -89,11 +89,27 @@ def save_card(card_name, card_set, card_collector_number, cardImage, quantity):
     for x in range(quantity):
         cardImage.save("cards/"+Utils.sanitizeString(card_name)+"_"+Utils.sanitizeString(card_set)+"_"+Utils.sanitizeString(card_collector_number)+"_"+str(x+1)+".png")
 
+def download_default_card(url, originalArt):
+    downloaded_image = Utils.getCardImage(url).convert("RGBA")
+    overlay_template = Image.open("arts/base_template.png").convert("RGBA")
+    composite_image = downloaded_image.resize((718,1000), Image.Resampling.LANCZOS).copy()
+    composite_image.alpha_composite(overlay_template, (0, 0))
+    if originalArt == 2:
+        return PNGCardBuilder.enhance_image(composite_image.convert('L'), 0.9, 1.5)
+    return downloaded_image
+
 class CardBuilder:
     def buildCard(line, font28, font32, font36, font44, lang, show = False, originalArt = 1):
         # TODO enable search by card lang
         # print("Downloading info for: " + line)
         card, quantity =  ScrythonApi.tryGetCard(line)
+
+        if "planeswalker" in card["type_line"].lower():
+            art_url = card["image_uris"]["large"]
+            downloaded_image = download_default_card(art_url, originalArt)
+            save_card(card["name"], card["set"], card["collector_number"], downloaded_image, quantity)
+            return False
+
         card_layout = card["layout"]
         if card_layout == "modal_dfc":
             card_front = card["card_faces"][0]
@@ -127,10 +143,10 @@ class CardBuilder:
             oracleFlavorFileNameSecond = "oracle_and_flavor"+Utils.sanitizeString(cardNameSecond)+".png"
             oracleAndFlavorTextImageSecond = HtmlCardBuilder.getOracleAndFlavorTextImageForAdventure(oracle_textSecond, flavor_textSecond, oracleFlavorFileNameSecond)
 
-            art_crop_url = card["image_uris"]["art_crop"]
+            art_url = card["image_uris"]["art_crop"]
             completedCard = PNGCardBuilder.generateAdventureCardPNG(cardNameFirst, powerFirst, toughnessFirst, type_lineFirst, manaCostTextImageFirst, oracleAndFlavorTextImageFirst,
                                                                     cardNameSecond, powerSecond, toughnessSecond, type_lineSecond, manaCostTextImageSecond, oracleAndFlavorTextImageSecond,
-                                                                    art_crop_url, font28, font32, font36, font44, originalArt)
+                                                                    art_url, font28, font32, font36, font44, originalArt)
             
             save_card(f"{cardNameFirst}_x_{cardNameSecond}", card["set"], card["collector_number"], completedCard, quantity)
 
@@ -139,4 +155,8 @@ class CardBuilder:
 
         print(f"Card Error {line}")
         print(f"Card Layout {card["layout"]}")
+        art_url = card["image_uris"]["large"]
+        downloaded_image = download_default_card(art_url, originalArt)
+        save_card(card["name"], card["set"], card["collector_number"], downloaded_image, quantity)
+        return False
         return False
