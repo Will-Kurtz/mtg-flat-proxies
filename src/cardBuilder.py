@@ -34,14 +34,12 @@ def getInfoForCardFace(cardFace):
 
     return cardName, type_line, mana_cost, power, toughness, oracle_text, flavor_text
 
-def process_normal_card(card, quantity, font32, font36, font44, originalArt):
-    # print(f"Card layout is Normal - Quantity {str(quantity)}")
+def process_normal_card(card, font32, font36, font44, originalArt):
     cardName = card["name"]
     type_line = card["type_line"]
     mana_cost = card["mana_cost"]
     
     if mana_cost != "":
-        # print(f"Mana Cost: |{mana_cost}|")
         manaCostFileName = "mana_cost" + Utils.sanitizeString(cardName) + ".png"
         manaCostTextImage = HtmlCardBuilder.getManaCostImage(mana_cost, manaCostFileName)
     else: 
@@ -50,9 +48,6 @@ def process_normal_card(card, quantity, font32, font36, font44, originalArt):
     flavor_text = card.get("flavor_text", "")
     power = card.get("power", "")
     toughness = card.get("toughness", "")
-    
-    # print(f"Oracle text: |{oracle_text}|")
-    # print(f"Flavor text: |{flavor_text}|")
     
     oracleFlavorFileName = "oracle_and_flavor" + Utils.sanitizeString(cardName) + ".png"
     oracleAndFlavorTextImage = HtmlCardBuilder.getOracleAndFlavorTextImage(oracle_text, flavor_text, oracleFlavorFileName)
@@ -108,33 +103,29 @@ class CardBuilder:
                 save_card(card["name"], card["set"], card["collector_number"], downloaded_image, quantity)
                 return False
             
-            card_image = process_normal_card(card, quantity, font32, font36, font44, image_filter)
+            card_image = process_normal_card(card, font32, font36, font44, image_filter)
             save_card(card["name"], card["set"], card["collector_number"], card_image, quantity)
             return True
         
         if card_layout == "modal_dfc":
             card_front = card["card_faces"][0]
             card_back = card["card_faces"][1]
-            card_image_front = process_normal_card(card_front, quantity, font32, font36, font44, image_filter)
-            card_image_back = process_normal_card(card_back, quantity, font32, font36, font44, image_filter)
+            card_image_front = process_normal_card(card_front, font32, font36, font44, image_filter)
+            card_image_back = process_normal_card(card_back, font32, font36, font44, image_filter)
             combined_card = merge_dual_faced_card(card_image_front, card_image_back)
             save_card(f"{card_front["name"]}_x_{card_back["name"]}", card["set"], card["collector_number"], combined_card, quantity)
             return True
         
         if card_layout == "adventure":
-            # print(f"CardFaces {card["card_faces"]}")
             cardNameFirst, type_lineFirst, manaCostFirst, powerFirst, toughnessFirst, oracle_textFirst, flavor_textFirst = getInfoForCardFace(card["card_faces"][0])
             cardNameSecond, type_lineSecond, manaCostSecond, powerSecond, toughnessSecond, oracle_textSecond, flavor_textSecond = getInfoForCardFace(card["card_faces"][1])
             
-            # print(f"Mana Cost: |{manaCostFirst}|")
             manaCostFileNameFirst = "mana_cost"+Utils.sanitizeString(cardNameFirst)+".png"
             manaCostTextImageFirst = HtmlCardBuilder.getManaCostImage(manaCostFirst, manaCostFileNameFirst)
 
             manaCostFileNameSecond = "mana_cost"+Utils.sanitizeString(cardNameSecond)+".png"
             manaCostTextImageSecond = HtmlCardBuilder.getManaCostImageAdventure(manaCostSecond, manaCostFileNameSecond)
 
-            # print(f"Oracle text: |{oracle_textFirst}|")
-            # print(f"Flavor text: |{flavor_textFirst}|")
             oracleFlavorFileNameFirst = "oracle_and_flavor"+Utils.sanitizeString(cardNameFirst)+".png"
             oracleAndFlavorTextImageFirst = HtmlCardBuilder.getOracleAndFlavorTextImageForAdventure(oracle_textFirst, flavor_textFirst, oracleFlavorFileNameFirst)
 
@@ -147,7 +138,6 @@ class CardBuilder:
                                                                     art_url, font28, font32, font36, font44, image_filter)
             
             save_card(f"{cardNameFirst}_x_{cardNameSecond}", card["set"], card["collector_number"], completedCard, quantity)
-
             return True
 
         Debug.log(f"Card Error {line}")

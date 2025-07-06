@@ -5,29 +5,20 @@ from src.test import Test
 import cv2
 import numpy as np
 
-    # Load the image
 def enhance_image(image, brightness_factor, contrast_factor):
-    # Enhance brightness
     enhancer = ImageEnhance.Brightness(image)
     image = enhancer.enhance(brightness_factor)
-    # Enhance contrast
     enhancer = ImageEnhance.Contrast(image)
     image = enhancer.enhance(contrast_factor)
     return image
 
 def reduce_colors(base_image, num_colors):
-    # Load the image
-    # image = Image.open(image_path)
-    # Convert the image to P mode which is a palette-based image
     return base_image.convert('P', palette=Image.ADAPTIVE, colors=num_colors)
 
 def reduce_dither(base_image, kernel_size = 5):
-    # 2. Remove dither with median filter
-    print("Removing dithering artifacts...")
     original_arr = np.array(base_image)
     cleaned_arr = cv2.medianBlur(original_arr, kernel_size)  # Kernel size 5 works well for most cases
     return Image.fromarray(cleaned_arr)
-    cleaned.save(f"{output_dir}/1_cleaned_dither.png")
 
 class PNGCardBuilder:
     def enhance_image(image, brightness_factor, contrast_factor):
@@ -55,10 +46,8 @@ class PNGCardBuilder:
             manaCostWidth, manaCostHeight = manaCostTextImage.size
             baseCard.paste(manaCostTextImage, (int(665 - manaCostWidth), int(57)), manaCostTextImage)
 
-        # card.image_uris()["art_crop"]
         cropeedImageZX = Utils.getCardImage(art_crop_url).convert("RGBA")
-        # cropeedImageZX.save("temp/"+Utils.sanitizeString(cardName)+".png")
-        brightness_factor = 1.25  # Increase brightness (1.0 means no change)
+        brightness_factor = 1.25
         contrast_factor = 1.25  
 
         if originalArt == 1:
