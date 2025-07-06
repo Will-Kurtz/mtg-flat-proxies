@@ -3,15 +3,9 @@ from PIL import ImageFont
 from src.cardBuilder import CardBuilder
 from src.decklistReader import DecklistReader
 
-# def str2bool(v):
-#     if v.lower() in ('yes', 'true', 't', '1', "True"):
-#         return True
-#     elif v.lower() in ('no', 'false', 'f', '0', "False"):
-#         return False
-#     else:
-#         raise argparse.ArgumentTypeError('Boolean value expected.')
-
 def save_strings_to_file(string_array, output_file):
+    if len(string_array) <= 0:
+        return
     try:
         with open(f"decklists/{output_file}.txt", 'w') as file:
             for string in string_array:

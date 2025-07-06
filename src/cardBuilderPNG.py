@@ -46,6 +46,8 @@ class PNGCardBuilder:
 
         if(oracleAndFlavorTextImage is not None):
             oracleFlavorwidth, oracleFlavorHeight = oracleAndFlavorTextImage.size
+            print(f"Oracle Flavor Height = {oracleFlavorHeight}")
+            
             oracleAndFlavorPosition = (68, int(628 +(306 - oracleFlavorHeight) / 2))
             baseCard.paste(oracleAndFlavorTextImage, oracleAndFlavorPosition, oracleAndFlavorTextImage)
 

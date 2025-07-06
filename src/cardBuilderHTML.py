@@ -9,6 +9,10 @@ def remove_parentheses(s):
     if s.endswith('})'):
         s = s[:-1]  # Remove the last character if it's ')'
     return s
+
+def calculate_resize_ratio(original_size, new_size):
+    return new_size / original_size
+
 class HtmlCardBuilder:
     def getManaCostImage(mana_cost, manaCostFileName):
         try:
@@ -46,7 +50,15 @@ class HtmlCardBuilder:
         hti.screenshot(html_str=htmlOracleAndFlavorText, css_file='css/main.css', save_as=oracleFlavorFileName)
         oracleAndFlavorTextImage = Image.open(oracleFlavorFileName).convert('RGBA')
         os.remove(oracleFlavorFileName)
-        return Utils.trimImage(oracleAndFlavorTextImage)
+        cropped = Utils.trimImage(oracleAndFlavorTextImage)
+        width, height = cropped.size
+        if height >= 305:
+            scale = calculate_resize_ratio(height, 290)
+            new_width = int(width * scale)
+            new_height = int(height * scale)
+            return cropped.resize((new_width, new_height), Image.Resampling.LANCZOS)
+
+        return cropped
 
     def getOracleTextHTML(oracle_text):
         result = Utils.replaceManaAndSymbols(oracle_text)
