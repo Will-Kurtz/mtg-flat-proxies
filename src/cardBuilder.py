@@ -60,26 +60,18 @@ def process_normal_card(card, quantity, font32, font36, font44, originalArt):
     return completedCard
 
 def merge_dual_faced_card(front_face, back_face):
-    # Define the dimensions
     width = 718
     height = 1000
-    # Create a black image with RGBA mode
-    background_image = Image.new("RGBA", (width, height), (0, 0, 0, 255))
-    scale = 0.718
-    original_width = 718
-    original_height = 1000
-    new_width = int(original_width * scale)
-    new_height = int(original_height * scale)
+    scale = width/height
+    combined_image = Image.new("RGBA", (width, height), (0, 0, 0, 255))
+    new_width = int(width * scale)
+    new_height = int(height * scale)
     
-    # Resize with anti-aliasing for better quality
     front_face = front_face.resize((new_width, new_height), Image.Resampling.LANCZOS)
     front_face = front_face.rotate(270, expand=True)
-
-    # Resize with anti-aliasing for better quality
     back_face = back_face.resize((new_width, new_height), Image.Resampling.LANCZOS)
     back_face = back_face.rotate(90, expand=True)
 
-    combined_image = background_image.copy()
     combined_image.paste(front_face, (0, 0), front_face)
     combined_image.paste(back_face, (0, 484), back_face)
 
@@ -99,7 +91,7 @@ def download_default_card(url, originalArt):
     return downloaded_image
 
 class CardBuilder:
-    def buildCard(line, font28, font32, font36, font44, lang, show = False, originalArt = 1):
+    def build_card(line, font28, font32, font36, font44, originalArt = 1):
         # TODO enable search by card lang
         # print("Downloading info for: " + line)
         card, quantity =  ScrythonApi.tryGetCard(line)
