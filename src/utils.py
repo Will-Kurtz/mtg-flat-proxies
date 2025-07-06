@@ -2,8 +2,17 @@ from markupsafe import Markup
 from PIL import Image, ImageChops
 import requests
 from io import BytesIO
+import argparse
 
 class Utils:
+    def str_to_bool(v):
+        if v.lower() in ('yes', 'true', 't', '1', "True"):
+            return True
+        elif v.lower() in ('no', 'false', 'f', '0', "False"):
+            return False
+        else:
+            raise argparse.ArgumentTypeError('Boolean value expected.')
+        
     def sanitizeString(string):
         return string.replace(" ", "_").replace("'", "")
     
@@ -12,7 +21,6 @@ class Utils:
         if response.status_code == 200:
             # Open the image using PIL
             return Image.open(BytesIO(response.content))
-
 
     def replaceManaAndSymbols(string):
         replacementTap = """<i class="ms ms-cost ms-tap ms-shadow mana-size"></i>"""
@@ -221,7 +229,6 @@ class Utils:
         result = result.replace("{R/W/P}", replacementRWP)
         result = result.replace("{G/U/P}", replacementGUP)
         return result 
-    
     
     def get_mana_cost_object(mana_cost):
         segments = list(filter(bool, re.split(r'(?<=})|(?={)', mana_cost)))

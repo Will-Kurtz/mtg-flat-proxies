@@ -3,6 +3,7 @@ from src.scrythonAPI import ScrythonApi
 from src.utils import Utils
 from src.cardBuilderHTML import HtmlCardBuilder
 from src.cardBuilderPNG import PNGCardBuilder
+from src.debug import Debug
 from PIL import Image
 
 def getInfoForCardFace(cardFace):
@@ -91,30 +92,35 @@ def download_default_card(url, originalArt):
     return downloaded_image
 
 class CardBuilder:
-    def build_card(line, font28, font32, font36, font44, originalArt = 1):
+    def build_card(line, font28, font32, font36, font44, image_filter = 1):
         # TODO enable search by card lang
-        # print("Downloading info for: " + line)
-        card, quantity =  ScrythonApi.tryGetCard(line)
+        card, quantity, is_error =  ScrythonApi.try_get_card(line)
 
-        if "planeswalker" in card["type_line"].lower():
-            art_url = card["image_uris"]["large"]
-            downloaded_image = download_default_card(art_url, originalArt)
-            save_card(card["name"], card["set"], card["collector_number"], downloaded_image, quantity)
+        if is_error:
             return False
 
-        card_layout = card["layout"]
+        card_layout = card["layout"]        
+
+        if card_layout == "normal":
+            if "planeswalker" in card["type_line"].lower():
+                art_url = card["image_uris"]["large"]
+                downloaded_image = download_default_card(art_url, image_filter)
+                save_card(card["name"], card["set"], card["collector_number"], downloaded_image, quantity)
+                return False
+            
+            card_image = process_normal_card(card, quantity, font32, font36, font44, image_filter)
+            save_card(card["name"], card["set"], card["collector_number"], card_image, quantity)
+            return True
+        
         if card_layout == "modal_dfc":
             card_front = card["card_faces"][0]
             card_back = card["card_faces"][1]
-            card_image_front = process_normal_card(card_front, quantity, font32, font36, font44, originalArt)
-            card_image_back = process_normal_card(card_back, quantity, font32, font36, font44, originalArt)
+            card_image_front = process_normal_card(card_front, quantity, font32, font36, font44, image_filter)
+            card_image_back = process_normal_card(card_back, quantity, font32, font36, font44, image_filter)
             combined_card = merge_dual_faced_card(card_image_front, card_image_back)
             save_card(f"{card_front["name"]}_x_{card_back["name"]}", card["set"], card["collector_number"], combined_card, quantity)
             return True
-        if card_layout == "normal":
-            card_image = process_normal_card(card, quantity, font32, font36, font44, originalArt)
-            save_card(card["name"], card["set"], card["collector_number"], card_image, quantity)
-            return True
+        
         if card_layout == "adventure":
             # print(f"CardFaces {card["card_faces"]}")
             cardNameFirst, type_lineFirst, manaCostFirst, powerFirst, toughnessFirst, oracle_textFirst, flavor_textFirst = getInfoForCardFace(card["card_faces"][0])
@@ -138,17 +144,15 @@ class CardBuilder:
             art_url = card["image_uris"]["art_crop"]
             completedCard = PNGCardBuilder.generateAdventureCardPNG(cardNameFirst, powerFirst, toughnessFirst, type_lineFirst, manaCostTextImageFirst, oracleAndFlavorTextImageFirst,
                                                                     cardNameSecond, powerSecond, toughnessSecond, type_lineSecond, manaCostTextImageSecond, oracleAndFlavorTextImageSecond,
-                                                                    art_url, font28, font32, font36, font44, originalArt)
+                                                                    art_url, font28, font32, font36, font44, image_filter)
             
             save_card(f"{cardNameFirst}_x_{cardNameSecond}", card["set"], card["collector_number"], completedCard, quantity)
 
             return True
 
-
-        print(f"Card Error {line}")
-        print(f"Card Layout {card["layout"]}")
+        Debug.log(f"Card Error {line}")
+        Debug.log(f"Card Layout {card["layout"]}")
         art_url = card["image_uris"]["large"]
-        downloaded_image = download_default_card(art_url, originalArt)
+        downloaded_image = download_default_card(art_url, image_filter)
         save_card(card["name"], card["set"], card["collector_number"], downloaded_image, quantity)
-        return False
         return False
