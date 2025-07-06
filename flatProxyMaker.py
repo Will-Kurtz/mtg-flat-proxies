@@ -17,13 +17,13 @@ def main(decklist_filename, image_filter, debug_mode):
 
     processed_cards = [] 
     failed_cards = []
-    Debug.log("image_filter " + str(image_filter))
+
     for line in list_lines:
         is_success = CardBuilder.build_card(line, beleren_bold_28, beleren_bold_32, beleren_bold_36, beleren_bold_44, image_filter)
         if is_success is True:
             processed_cards.append(line)
-            return
-        failed_cards.append(line)
+        else:
+            failed_cards.append(line)
 
     Utils.save_strings_to_file(processed_cards, "success/downloaded")
     Utils.save_strings_to_file(failed_cards, "failed/failed_download")
