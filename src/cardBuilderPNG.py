@@ -1,7 +1,6 @@
 
 from PIL import Image, ImageChops, ImageDraw, ImageFont, ImageEnhance
 from src.utils import Utils
-from src.test import Test
 import cv2
 import numpy as np
 
@@ -37,8 +36,6 @@ class PNGCardBuilder:
 
         if(oracleAndFlavorTextImage is not None):
             oracleFlavorwidth, oracleFlavorHeight = oracleAndFlavorTextImage.size
-            print(f"Oracle Flavor Height = {oracleFlavorHeight}")
-            
             oracleAndFlavorPosition = (68, int(628 +(306 - oracleFlavorHeight) / 2))
             baseCard.paste(oracleAndFlavorTextImage, oracleAndFlavorPosition, oracleAndFlavorTextImage)
 
@@ -74,15 +71,7 @@ class PNGCardBuilder:
             baseCard.paste(cropeedImage, (53,112), cropeedImage)
             return baseCard
 
-
-        print(cardName)
-        cropeedImageZX.save("temp/"+Utils.sanitizeString(cardName)+".png")
-        Test.convertImageToLineArtPng(cardName)
-
-        line_art = Image.open("temp/"+cardName+"_lines.png")
-        line_art = line_art.resize((626, 457)).crop((0,0, 612, 446))
-        baseCard.paste(line_art, (53,112), line_art)
-        return baseCard
+        return None
     
     def generateAdventureCardPNG(cardNameFirst, powerFirst, toughnessFirst, type_lineFirst, manaCostTextImageFirst, oracleAndFlavorTextImageFirst,
                                  cardNameSecond, powerSecond, toughnessSecond, type_lineSecond, manaCostTextImageSecond, oracleAndFlavorTextImageSecond, 
@@ -152,15 +141,8 @@ class PNGCardBuilder:
             baseCard.paste(cropeedImage, (53,112), cropeedImage)
             return baseCard
 
+        return None
 
-        print(cardNameFirst)
-        cropeedImageZX.save("temp/"+Utils.sanitizeString(cardNameFirst)+".png")
-        Test.convertImageToLineArtPng(cardNameFirst)
-
-        line_art = Image.open("temp/"+cardNameFirst+"_lines.png")
-        line_art = line_art.resize((626, 457)).crop((0,0, 612, 446))
-        baseCard.paste(line_art, (53,112), line_art)
-        return baseCard
 
 
 

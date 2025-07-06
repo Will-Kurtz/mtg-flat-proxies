@@ -56,6 +56,9 @@ def process_normal_card(card, font32, font36, font44, originalArt):
     return completedCard
 
 def merge_dual_faced_card(front_face, back_face):
+    if front_face is None:
+        return front_face
+    
     width = 718
     height = 1000
     scale = width/height
@@ -74,8 +77,13 @@ def merge_dual_faced_card(front_face, back_face):
     return combined_image
 
 def save_card(card_name, card_set, card_collector_number, cardImage, quantity):
+    if cardImage is None:
+        return False
+    
     for x in range(quantity):
         cardImage.save("cards/"+Utils.sanitizeString(card_name)+"_"+Utils.sanitizeString(card_set)+"_"+Utils.sanitizeString(card_collector_number)+"_"+str(x+1)+".png")
+
+    return True
 
 def download_default_card(url, originalArt):
     downloaded_image = Utils.getCardImage(url).convert("RGBA")
@@ -100,12 +108,11 @@ class CardBuilder:
             if "planeswalker" in card["type_line"].lower():
                 art_url = card["image_uris"]["large"]
                 downloaded_image = download_default_card(art_url, image_filter)
-                save_card(card["name"], card["set"], card["collector_number"], downloaded_image, quantity)
-                return False
+                return save_card(card["name"], card["set"], card["collector_number"], downloaded_image, quantity)
+                
             
             card_image = process_normal_card(card, font32, font36, font44, image_filter)
-            save_card(card["name"], card["set"], card["collector_number"], card_image, quantity)
-            return True
+            return save_card(card["name"], card["set"], card["collector_number"], card_image, quantity)
         
         if card_layout == "modal_dfc":
             card_front = card["card_faces"][0]
@@ -113,8 +120,7 @@ class CardBuilder:
             card_image_front = process_normal_card(card_front, font32, font36, font44, image_filter)
             card_image_back = process_normal_card(card_back, font32, font36, font44, image_filter)
             combined_card = merge_dual_faced_card(card_image_front, card_image_back)
-            save_card(f"{card_front["name"]}_x_{card_back["name"]}", card["set"], card["collector_number"], combined_card, quantity)
-            return True
+            return save_card(f"{card_front["name"]}_x_{card_back["name"]}", card["set"], card["collector_number"], combined_card, quantity)
         
         if card_layout == "adventure":
             cardNameFirst, type_lineFirst, manaCostFirst, powerFirst, toughnessFirst, oracle_textFirst, flavor_textFirst = getInfoForCardFace(card["card_faces"][0])
@@ -137,12 +143,10 @@ class CardBuilder:
                                                                     cardNameSecond, powerSecond, toughnessSecond, type_lineSecond, manaCostTextImageSecond, oracleAndFlavorTextImageSecond,
                                                                     art_url, font28, font32, font36, font44, image_filter)
             
-            save_card(f"{cardNameFirst}_x_{cardNameSecond}", card["set"], card["collector_number"], completedCard, quantity)
-            return True
+            return save_card(f"{cardNameFirst}_x_{cardNameSecond}", card["set"], card["collector_number"], completedCard, quantity)
 
         Debug.log(f"Card Error {line}")
         Debug.log(f"Card Layout {card["layout"]}")
         art_url = card["image_uris"]["large"]
         downloaded_image = download_default_card(art_url, image_filter)
-        save_card(card["name"], card["set"], card["collector_number"], downloaded_image, quantity)
-        return False
+        return save_card(card["name"], card["set"], card["collector_number"], downloaded_image, quantity)
