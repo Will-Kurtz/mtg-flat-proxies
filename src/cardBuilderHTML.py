@@ -49,7 +49,7 @@ class HtmlCardBuilder:
         return Utils.trimImage(oracleAndFlavorTextImage)
 
     def getOracleTextHTML(oracle_text):
-        result = Utils.replaceManaAndSymbols(remove_parentheses(oracle_text))
+        result = Utils.replaceManaAndSymbols(oracle_text)
 
         oracleTextStart = """<div class="oracle-text"><span>"""
         oracleTextEnd = """</span></div>"""

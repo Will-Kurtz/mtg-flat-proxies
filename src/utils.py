@@ -33,6 +33,37 @@ class Utils:
         replacement8 = """<i class="ms ms-cost ms-8 ms-shadow mana-size"></i>"""
         replacement9 = """<i class="ms ms-cost ms-9 ms-shadow mana-size"></i>"""
         replacementX = """<i class="ms ms-cost ms-x ms-shadow mana-size"></i>"""
+        replacementWU = """<i class="ms ms-cost ms-wu ms-shadow mana-size"></i>"""
+        replacementWB = """<i class="ms ms-cost ms-wb ms-shadow mana-size"></i>"""
+        replacementUB = """<i class="ms ms-cost ms-ub ms-shadow mana-size"></i>"""
+        replacementUR = """<i class="ms ms-cost ms-ur ms-shadow mana-size"></i>"""
+        replacementBR = """<i class="ms ms-cost ms-br ms-shadow mana-size"></i>"""
+        replacementBG = """<i class="ms ms-cost ms-bg ms-shadow mana-size"></i>"""
+        replacementRG = """<i class="ms ms-cost ms-rg ms-shadow mana-size"></i>"""
+        replacementRW = """<i class="ms ms-cost ms-rw ms-shadow mana-size"></i>"""
+        replacementGW = """<i class="ms ms-cost ms-gw ms-shadow mana-size"></i>"""
+        replacementGU = """<i class="ms ms-cost ms-gu ms-shadow mana-size"></i>"""
+        replacementCW = """<i class="ms ms-cost ms-cw ms-shadow mana-size"></i>"""
+        replacement2W = """<i class="ms ms-cost ms-2w ms-shadow mana-size"></i>"""
+        replacementCU = """<i class="ms ms-cost ms-cu ms-shadow mana-size"></i>"""
+        replacement2U = """<i class="ms ms-cost ms-2u ms-shadow mana-size"></i>"""
+        replacementCB = """<i class="ms ms-cost ms-cb ms-shadow mana-size"></i>"""
+        replacement2B = """<i class="ms ms-cost ms-2b ms-shadow mana-size"></i>"""
+        replacementCR = """<i class="ms ms-cost ms-cr ms-shadow mana-size"></i>"""
+        replacement2R = """<i class="ms ms-cost ms-2r ms-shadow mana-size"></i>"""
+        replacementCG = """<i class="ms ms-cost ms-cg ms-shadow mana-size"></i>"""
+        replacement2G = """<i class="ms ms-cost ms-2g ms-shadow mana-size"></i>"""
+        replacementRGP = """<i class="ms ms-cost ms-rgp ms-shadow mana-size"></i>"""
+        replacementGWP = """<i class="ms ms-cost ms-gwp ms-shadow mana-size"></i>"""
+        replacementRWP = """<i class="ms ms-cost ms-rwp ms-shadow mana-size"></i>"""
+        replacementGUP = """<i class="ms ms-cost ms-gbp ms-shadow mana-size"></i>"""
+        
+        #  Phyrexian Mana
+        replacementWP = """<i class="ms ms-cost ms-wp ms-shadow mana-size"></i>"""
+        replacementUP = """<i class="ms ms-cost ms-up ms-shadow mana-size"></i>"""
+        replacementBP = """<i class="ms ms-cost ms-bp ms-shadow mana-size"></i>"""
+        replacementRP = """<i class="ms ms-cost ms-rp ms-shadow mana-size"></i>"""
+        replacementGP = """<i class="ms ms-cost ms-gp ms-shadow mana-size"></i>"""
 
         result = string.replace("{T}", replacementTap)
         result = result.replace("{C}", replacementColorLess)
@@ -52,6 +83,39 @@ class Utils:
         result = result.replace("{8}", replacement8)
         result = result.replace("{9}", replacement9)
         result = result.replace("{X}", replacementX)
+        #Phyrexian mana
+        result = result.replace("{W/P}", replacementWP)
+        result = result.replace("{U/P}", replacementUP)
+        result = result.replace("{B/P}", replacementBP)
+        result = result.replace("{R/P}", replacementRP)
+        result = result.replace("{G/P}", replacementGP)
+        # Color Pairs
+        result = result.replace("{W/U}", replacementWU)
+        result = result.replace("{W/B}", replacementWB)
+        result = result.replace("{U/B}", replacementUB)
+        result = result.replace("{U/R}", replacementUR)
+        result = result.replace("{B/R}", replacementBR)
+        result = result.replace("{B/G}", replacementBG)
+        result = result.replace("{R/G}", replacementRG)
+        result = result.replace("{R/W}", replacementRW)
+        result = result.replace("{G/W}", replacementGW)
+        result = result.replace("{G/U}", replacementGU)
+        # Monocolored
+        result = result.replace("{2/W}", replacement2W)
+        result = result.replace("{2/U}", replacement2U)
+        result = result.replace("{2/B}", replacement2B)
+        result = result.replace("{2/R}", replacement2R)
+        result = result.replace("{2/G}", replacement2G)
+        result = result.replace("{C/W}", replacementCW)
+        result = result.replace("{C/U}", replacementCU)
+        result = result.replace("{C/B}", replacementCB)
+        result = result.replace("{C/R}", replacementCR)
+        result = result.replace("{C/G}", replacementCG)
+        # Dual Color Phyrexian
+        result = result.replace("{R/G/P}", replacementRGP)
+        result = result.replace("{G/W/P}", replacementGWP)
+        result = result.replace("{R/W/P}", replacementRWP)
+        result = result.replace("{G/U/P}", replacementGUP)
         return result 
 
     def replaceManaAndSymbolsLarge(string):
@@ -73,6 +137,37 @@ class Utils:
         replacement8 = """<i class="ms ms-cost ms-8 ms-shadow mana-size-large"></i>"""
         replacement9 = """<i class="ms ms-cost ms-9 ms-shadow mana-size-large"></i>"""
         replacementX = """<i class="ms ms-cost ms-x ms-shadow mana-size-large"></i>"""
+        replacementWU = """<i class="ms ms-cost ms-wu ms-shadow mana-size-large"></i>"""
+        replacementWB = """<i class="ms ms-cost ms-wb ms-shadow mana-size-large"></i>"""
+        replacementUB = """<i class="ms ms-cost ms-ub ms-shadow mana-size-large"></i>"""
+        replacementUR = """<i class="ms ms-cost ms-ur ms-shadow mana-size-large"></i>"""
+        replacementBR = """<i class="ms ms-cost ms-br ms-shadow mana-size-large"></i>"""
+        replacementBG = """<i class="ms ms-cost ms-bg ms-shadow mana-size-large"></i>"""
+        replacementRG = """<i class="ms ms-cost ms-rg ms-shadow mana-size-large"></i>"""
+        replacementRW = """<i class="ms ms-cost ms-rw ms-shadow mana-size-large"></i>"""
+        replacementGW = """<i class="ms ms-cost ms-gw ms-shadow mana-size-large"></i>"""
+        replacementGU = """<i class="ms ms-cost ms-gu ms-shadow mana-size-large"></i>"""
+        replacementCW = """<i class="ms ms-cost ms-cw ms-shadow mana-size-large"></i>"""
+        replacement2W = """<i class="ms ms-cost ms-2w ms-shadow mana-size-large"></i>"""
+        replacementCU = """<i class="ms ms-cost ms-cu ms-shadow mana-size-large"></i>"""
+        replacement2U = """<i class="ms ms-cost ms-2u ms-shadow mana-size-large"></i>"""
+        replacementCB = """<i class="ms ms-cost ms-cb ms-shadow mana-size-large"></i>"""
+        replacement2B = """<i class="ms ms-cost ms-2b ms-shadow mana-size-large"></i>"""
+        replacementCR = """<i class="ms ms-cost ms-cr ms-shadow mana-size-large"></i>"""
+        replacement2R = """<i class="ms ms-cost ms-2r ms-shadow mana-size-large"></i>"""
+        replacementCG = """<i class="ms ms-cost ms-cg ms-shadow mana-size-large"></i>"""
+        replacement2G = """<i class="ms ms-cost ms-2g ms-shadow mana-size-large"></i>"""
+        replacementRGP = """<i class="ms ms-cost ms-rgp ms-shadow mana-size-large"></i>"""
+        replacementGWP = """<i class="ms ms-cost ms-gwp ms-shadow mana-size-large"></i>"""
+        replacementRWP = """<i class="ms ms-cost ms-rwp ms-shadow mana-size-large"></i>"""
+        replacementGUP = """<i class="ms ms-cost ms-gbp ms-shadow mana-size-large"></i>"""
+        
+        #  Phyrexian Mana
+        replacementWP = """<i class="ms ms-cost ms-wp ms-shadow mana-size-large"></i>"""
+        replacementUP = """<i class="ms ms-cost ms-up ms-shadow mana-size-large"></i>"""
+        replacementBP = """<i class="ms ms-cost ms-bp ms-shadow mana-size-large"></i>"""
+        replacementRP = """<i class="ms ms-cost ms-rp ms-shadow mana-size-large"></i>"""
+        replacementGP = """<i class="ms ms-cost ms-gp ms-shadow mana-size-large"></i>"""
 
         result = string.replace("{T}", replacementTap)
         result = result.replace("{C}", replacementColorLess)
@@ -92,6 +187,39 @@ class Utils:
         result = result.replace("{8}", replacement8)
         result = result.replace("{9}", replacement9)
         result = result.replace("{X}", replacementX)
+        #Phyrexian mana
+        result = result.replace("{W/P}", replacementWP)
+        result = result.replace("{U/P}", replacementUP)
+        result = result.replace("{B/P}", replacementBP)
+        result = result.replace("{R/P}", replacementRP)
+        result = result.replace("{G/P}", replacementGP)
+        # Color Pairs
+        result = result.replace("{W/U}", replacementWU)
+        result = result.replace("{W/B}", replacementWB)
+        result = result.replace("{U/B}", replacementUB)
+        result = result.replace("{U/R}", replacementUR)
+        result = result.replace("{B/R}", replacementBR)
+        result = result.replace("{B/G}", replacementBG)
+        result = result.replace("{R/G}", replacementRG)
+        result = result.replace("{R/W}", replacementRW)
+        result = result.replace("{G/W}", replacementGW)
+        result = result.replace("{G/U}", replacementGU)
+        # Monocolored
+        result = result.replace("{2/W}", replacement2W)
+        result = result.replace("{2/U}", replacement2U)
+        result = result.replace("{2/B}", replacement2B)
+        result = result.replace("{2/R}", replacement2R)
+        result = result.replace("{2/G}", replacement2G)
+        result = result.replace("{C/W}", replacementCW)
+        result = result.replace("{C/U}", replacementCU)
+        result = result.replace("{C/B}", replacementCB)
+        result = result.replace("{C/R}", replacementCR)
+        result = result.replace("{C/G}", replacementCG)
+        # Dual Color Phyrexian
+        result = result.replace("{R/G/P}", replacementRGP)
+        result = result.replace("{G/W/P}", replacementGWP)
+        result = result.replace("{R/W/P}", replacementRWP)
+        result = result.replace("{G/U/P}", replacementGUP)
         return result 
     
     
