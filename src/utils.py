@@ -240,3 +240,14 @@ class Utils:
         bbox = diff.getbbox()
         if bbox:
             return image.crop(bbox)
+
+    def save_strings_to_file(string_array, output_file):
+        if len(string_array) <= 0:
+            return
+        try:
+            with open(f"decklists/{output_file}.txt", 'w') as file:
+                for string in string_array:
+                    file.write(string + '\n')  # Adds a newline after each string
+            print(f"Successfully saved strings to '{output_file}'")
+        except Exception as e:
+            print(f"Error saving to file: {e}")
